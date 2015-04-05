@@ -1,6 +1,6 @@
 package com.marvinmiaowang.ml;
 
-public class Helper {
+public class MathUtil {
 
 	public static double NormalDist(double x, double mean, double variance) {
 		double fact = Math.sqrt(2.0 * Math.PI * variance);

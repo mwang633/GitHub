@@ -2,8 +2,11 @@ package com.marvinmiaowang.ml;
 
 import java.util.ArrayList;
 
-public class NaiveBayes {
 
+/**
+ * A very simple Naive Bayes machine learning library
+ */
+public class NaiveBayes {
 	private int numberOfFeatures;
 
 	private double[][] means;
@@ -18,7 +21,7 @@ public class NaiveBayes {
 		this.labelTypes = new ArrayList<String>();
 	}
 
-	public void Train(Instance[] instances) {
+	public void train(Instance[] instances) {
 		for (Instance instance : instances) {
 			if (!labelTypes.contains(instance.getLabel())) {
 				labelTypes.add(instance.getLabel());
@@ -49,7 +52,6 @@ public class NaiveBayes {
 			int labelId = labelTypes.indexOf(instance.getLabel());
 
 			for (int i = 0; i < this.numberOfFeatures; i++) {
-
 				this.variances[labelId][i] += Math.pow(
 						instance.getFeatures()[i] - this.means[labelId][i], 2);
 			}
@@ -63,7 +65,6 @@ public class NaiveBayes {
 	}
 
 	public String classify(double[] features){
-		
 		double max = 0.0;
 		int maxLabelId = 0;
 		
@@ -71,7 +72,7 @@ public class NaiveBayes {
 			double s = 1.0 * this.counts[labelId] / this.total_count;
 			
 			for (int i = 0; i < this.numberOfFeatures; i++) {
-				s *= Helper.NormalDist(features[i], this.means[labelId][i], this.variances[labelId][i]);
+				s *= MathUtil.NormalDist(features[i], this.means[labelId][i], this.variances[labelId][i]);
 			}
 			
 			if (s > max){
