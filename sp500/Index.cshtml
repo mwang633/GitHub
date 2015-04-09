@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div id="table">
+    
+</div>
+
+@section scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+        load_table();
+        setInterval("load_table();", 30000);
+    });
+
+    function load_table() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "api/Data?lookbackMins=60",
+            success: function (data) {
+                var t = $('#table');
+
+                //code to bind table
+                t.empty();
+                t.append('<table>');
+
+                t.append('<tr>')
+                t.append('<th> Symbol </th>');
+                t.append('<th> Time1 </th>');
+                t.append('<th> Price1 </th>');
+                t.append('<th> Time 2 </th>');
+                t.append('<th> Price2 </th>');
+                t.append('<th> Percentage Change </th>');
+                t.append('</tr>')
+
+                $.each(data, function (i, item) {
+                    t.append('<tr>')
+                    t.append('<td>' + item.symbol + '</td>');
+                    t.append('<td>' + item.time1 + '</td>');
+                    t.append('<td>' + item.price1 + '</td>');
+                    t.append('<td>' + item.time2 + '</td>');
+                    t.append('<td>' + item.price2 + '</td>');
+                    t.append('<td>' + item.changePerc + '</td>');
+                    t.append('</tr>')
+                });
+
+                t.append('</table>');
+            },
+            error: function (Result) {
+                debugger;
+                alert("Error");
+            }
+        });
+    }
+</script>
+}
